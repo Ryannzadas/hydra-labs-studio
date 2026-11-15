@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+import { Effects } from "@/components/effects";
 import { site, siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -33,7 +34,13 @@ export const viewport: Viewport = { themeColor: "#09070f" };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}>
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        <noscript>
+          <style>{"[data-reveal]{opacity:1!important;transform:none!important}"}</style>
+        </noscript>
+        {children}
+        <Effects />
+      </body>
     </html>
   );
 }

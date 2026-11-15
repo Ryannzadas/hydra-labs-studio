@@ -10,6 +10,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 const GITHUB_USER = "Ryannzadas";
 export const HYDRA_TOPIC = "hydra-labs";
+const INTERNAL_TOPICS = new Set([HYDRA_TOPIC, "portfolio"]);
 
 export type Project = {
   id: number;
@@ -106,7 +107,8 @@ export async function getProjects(): Promise<ProjectsResult> {
         repoUrl: r.html_url,
         siteUrl: normalizeUrl(r.homepage),
         language: r.language,
-        topics: (r.topics ?? []).filter((t) => t !== HYDRA_TOPIC).slice(0, 4),
+        // Tópicos de organização (hydra-labs, portfolio) não interessam pra quem visita.
+        topics: (r.topics ?? []).filter((t) => !INTERNAL_TOPICS.has(t)).slice(0, 4),
         image: await findPreview(r),
         stars: r.stargazers_count,
         updatedAt: r.pushed_at,

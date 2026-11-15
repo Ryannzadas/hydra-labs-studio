@@ -1,13 +1,14 @@
 import Image from "next/image";
 import type { Project } from "@/lib/github";
+import { ButtonLink } from "./button";
 import { LogoMark } from "./logo";
-
-const linkClass =
-  "rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-colors hover:border-violet/60">
+    <article
+      data-spotlight
+      className="card spotlight group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface [--spot-size:340px]"
+    >
       <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-surface-2">
         {project.image ? (
           <Image
@@ -41,25 +42,15 @@ export function ProjectCard({ project }: { project: Project }) {
           </ul>
         )}
 
-        <div className="mt-auto flex gap-2 pt-2">
+        <div className="relative z-10 mt-auto flex gap-2 pt-2">
           {project.siteUrl && (
-            <a
-              href={project.siteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${linkClass} bg-violet text-white hover:bg-violet/85`}
-            >
+            <ButtonLink href={project.siteUrl} target="_blank" rel="noopener noreferrer" size="sm" arrow="out" magnetic={false}>
               Abrir site
-            </a>
+            </ButtonLink>
           )}
-          <a
-            href={project.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${linkClass} border border-line text-ink hover:border-violet`}
-          >
+          <ButtonLink href={project.repoUrl} target="_blank" rel="noopener noreferrer" size="sm" variant="outline" magnetic={false}>
             Código
-          </a>
+          </ButtonLink>
         </div>
       </div>
     </article>
