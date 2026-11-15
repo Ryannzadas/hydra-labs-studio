@@ -2,6 +2,8 @@ import { ButtonLink } from "@/components/button";
 import { CopyButton } from "@/components/copy-button";
 import { Logo, LogoMark } from "@/components/logo";
 import { ProjectCard } from "@/components/project-card";
+import { HudRing } from "@/components/hud-ring";
+import { Orb } from "@/components/orb";
 import { getProjects, githubProfileUrl } from "@/lib/github";
 import { site, siteUrl } from "@/lib/site";
 
@@ -15,15 +17,12 @@ const focus = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visi
 
 const headline = "Produtos web feitos com cuidado, do primeiro pixel ao deploy.";
 
-const stack = ["Next.js", "React", "TypeScript", "Tailwind CSS", "GSAP", "Node.js", "Vite", "Vercel", "Figma", "Git"];
-
 export default function Home() {
   return (
     <>
       <Header />
       <main>
         <Hero />
-        <Marquee />
         <Projects />
         <About />
         <Badge />
@@ -45,7 +44,7 @@ function Header() {
             <a
               key={item.href}
               href={item.href}
-              className={`nav-link hidden rounded-full px-3 py-1.5 text-muted transition-colors hover:text-ink sm:block ${focus}`}
+              className={`nav-link hidden rounded-md px-3 py-1.5 font-mono text-xs tracking-[0.12em] text-muted uppercase transition-colors hover:text-ink sm:block ${focus}`}
             >
               {item.label}
             </a>
@@ -66,21 +65,18 @@ function Hero() {
     <section
       id="topo"
       data-spotlight
-      className="spotlight relative overflow-hidden [--spot-alpha:0.12] [--spot-size:560px]"
+      className="spotlight relative overflow-hidden [--spot-alpha:0.1] [--spot-size:620px]"
     >
       <div className="hero-grid" aria-hidden="true" />
-      <div
-        className="hero-blob top-[-10%] right-[5%] size-[28rem] bg-violet/25"
-        aria-hidden="true"
-      />
+      <div className="hero-blob top-[-10%] right-[5%] size-[28rem] bg-violet/20" aria-hidden="true" />
       <div
         className="hero-blob bottom-[-20%] left-[-10%] size-[30rem] bg-deep/40 [animation-delay:-9s]"
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pt-16 pb-20 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:pt-24 lg:pb-28">
-        <div>
-          <p className="rise mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3 py-1 font-mono text-xs text-lilac">
+      <div className="relative mx-auto grid min-h-[calc(100dvh-4rem)] max-w-6xl items-center gap-6 px-4 pt-10 pb-24 sm:px-6 lg:grid-cols-[1fr_1.05fr] lg:gap-10 lg:pt-6">
+        <div className="order-2 lg:order-1">
+          <p className="rise mb-6 inline-flex items-center gap-2 rounded-md border border-line bg-surface/70 px-3 py-1.5 font-mono text-[11px] tracking-[0.14em] text-lilac uppercase">
             <span className="relative flex size-1.5" aria-hidden="true">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-violet opacity-70 motion-reduce:hidden" />
               <span className="relative inline-flex size-1.5 rounded-full bg-violet" />
@@ -88,7 +84,7 @@ function Hero() {
             Estúdio independente de {site.owner}
           </p>
           <h1
-            className="font-display text-4xl leading-[1.05] font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl"
+            className="font-display text-[2.6rem] leading-[0.98] font-bold tracking-[-0.045em] text-balance sm:text-6xl lg:text-[4.4rem]"
             aria-label={headline}
           >
             {headline.split(" ").map((word, i) => (
@@ -96,7 +92,11 @@ function Hero() {
                 <span className="word">
                   <span
                     style={{ "--i": i } as React.CSSProperties}
-                    className={word.startsWith("cuidado") ? "bg-gradient-to-r from-lilac to-violet bg-clip-text text-transparent" : undefined}
+                    className={
+                      word.startsWith("cuidado")
+                        ? "bg-gradient-to-r from-lilac to-violet bg-clip-text text-transparent"
+                        : undefined
+                    }
                   >
                     {word}
                   </span>
@@ -104,7 +104,7 @@ function Hero() {
               </span>
             ))}
           </h1>
-          <p className="rise mt-6 max-w-xl text-lg leading-relaxed text-muted text-pretty [animation-delay:500ms]">
+          <p className="rise mt-6 max-w-lg text-lg leading-relaxed text-muted text-pretty [animation-delay:500ms]">
             Hydra Labs é onde eu publico o que construo: sites, ferramentas e experimentos. Tudo
             rápido, acessível e pensado nos detalhes.
           </p>
@@ -118,44 +118,23 @@ function Hero() {
           </div>
         </div>
 
-        <div className="rise [animation-delay:250ms]">
-          <div className="video-frame shadow-[0_30px_80px_-30px_rgb(139_92_246/0.5)]">
-            <div className="overflow-hidden rounded-[calc(1.6rem-1px)] bg-black">
-              <video
-                className="aspect-video w-full"
-                src="/brand/intro-dark.mp4"
-                poster="/brand/intro-dark-poster.jpg"
-                autoPlay
-                muted
-                playsInline
-                preload="metadata"
-                aria-label="Animação da logo da Hydra Labs se formando"
-              />
-            </div>
-          </div>
+        <div className="rise relative order-1 mx-auto aspect-square w-full max-w-[min(100%,34rem)] [animation-delay:150ms] lg:order-2">
+          <HudRing className="absolute inset-0 size-full" />
+          <Orb className="absolute inset-[9%] size-[82%]" />
+          <LogoMark className="absolute top-1/2 left-1/2 size-[17%] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_0_24px_rgb(139_92_246/0.7)]" />
         </div>
       </div>
-    </section>
-  );
-}
 
-function Marquee() {
-  const items = [...stack, ...stack];
-  return (
-    <div className="marquee overflow-hidden border-y border-line bg-surface/40 py-5" aria-label="Tecnologias que eu uso">
-      <ul className="marquee-track">
-        {items.map((t, i) => (
-          <li
-            key={i}
-            aria-hidden={i >= stack.length}
-            className="flex items-center gap-6 px-6 font-display text-lg font-medium whitespace-nowrap text-muted"
-          >
-            {t}
-            <LogoMark className="size-3.5 opacity-50" />
-          </li>
-        ))}
-      </ul>
-    </div>
+      <a
+        href="#projetos"
+        className={`scroll-cue absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1.5 rounded-md font-mono text-[11px] tracking-[0.2em] text-muted uppercase transition-colors hover:text-ink ${focus}`}
+      >
+        Rolar
+        <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </a>
+    </section>
   );
 }
 
@@ -188,12 +167,27 @@ async function Projects() {
             .
           </EmptyState>
         ) : (
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {result.projects.map((p, i) => (
-              <div key={p.id} data-reveal style={{ "--d": `${(i % 3) * 90}ms` } as React.CSSProperties}>
-                <ProjectCard project={p} />
-              </div>
-            ))}
+          <div data-reveal className="app-window mt-12 overflow-hidden rounded-2xl shadow-[0_40px_100px_-40px_rgb(139_92_246/0.45)]">
+            <div className="flex items-center gap-4 border-b border-line bg-bg/60 px-4 py-3">
+              <span className="flex gap-1.5" aria-hidden="true">
+                <span className="size-2.5 rounded-full bg-[#ff5f57]/80" />
+                <span className="size-2.5 rounded-full bg-[#febc2e]/80" />
+                <span className="size-2.5 rounded-full bg-[#28c840]/80" />
+              </span>
+              <span className="truncate font-mono text-[11px] tracking-[0.12em] text-muted uppercase">
+                hydra-labs / projetos
+              </span>
+              <span className="ml-auto shrink-0 rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-lilac">
+                {result.projects.length} {result.projects.length === 1 ? "projeto" : "projetos"}
+              </span>
+            </div>
+            <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-3">
+              {result.projects.map((p, i) => (
+                <div key={p.id} data-reveal style={{ "--d": `${150 + (i % 3) * 90}ms` } as React.CSSProperties}>
+                  <ProjectCard project={p} />
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -238,6 +232,20 @@ function About() {
             </a>{" "}
             conta a minha trajetória; aqui ficam os produtos.
           </p>
+          <div className="video-frame mt-8 shadow-[0_30px_80px_-30px_rgb(139_92_246/0.5)]">
+            <div className="overflow-hidden rounded-[calc(1.6rem-1px)] bg-black">
+              <video
+                className="aspect-video w-full"
+                src="/brand/intro-dark.mp4"
+                poster="/brand/intro-dark-poster.jpg"
+                muted
+                playsInline
+                preload="none"
+                data-play-on-view
+                aria-label="Vinheta da Hydra Labs: a logo se formando"
+              />
+            </div>
+          </div>
         </div>
 
         <ul className="grid gap-4 self-center">

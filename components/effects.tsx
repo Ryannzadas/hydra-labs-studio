@@ -27,6 +27,19 @@ export function Effects() {
       else io.observe(el);
     });
 
+    // Vídeos que só começam quando aparecem na tela (uma vez).
+    const videoIo = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          (entry.target as HTMLVideoElement).play().catch(() => {});
+          videoIo.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 },
+    );
+    if (!reduce) document.querySelectorAll("video[data-play-on-view]").forEach((v) => videoIo.observe(v));
+
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return;
       const el = (e.target as Element | null)?.closest<HTMLElement>("[data-spotlight]");
@@ -46,6 +59,7 @@ export function Effects() {
 
     return () => {
       io.disconnect();
+      videoIo.disconnect();
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("scroll", onScroll);
     };

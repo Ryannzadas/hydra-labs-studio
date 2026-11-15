@@ -61,8 +61,12 @@ pre {
   gap: 0.6rem;
   overflow: hidden;
   isolation: isolate;
-  border-radius: 9999px;
+  border-radius: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   white-space: nowrap;
   transition:
     transform 0.4s var(--ease-out),
@@ -71,11 +75,11 @@ pre {
     color 0.4s var(--ease-out);
 }
 .btn-md {
-  padding: 0.8rem 1.5rem;
+  padding: 0.95rem 1.4rem;
 }
 .btn-sm {
-  padding: 0.4rem 0.95rem;
-  font-size: 0.875rem;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.7rem;
 }
 .btn:focus-visible {
   outline: 2px solid var(--color-violet);
@@ -323,23 +327,68 @@ pre {
 }
 
 /* ------------------------------------------------------------------ */
-/* Faixa de tecnologias                                                */
+/* Anel HUD do hero (components/hud-ring.tsx)                          */
 /* ------------------------------------------------------------------ */
-.marquee {
-  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+.hud-ticks,
+.hud-label,
+.hud-inner {
+  transform-origin: 250px 250px;
 }
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 32s linear infinite;
+.hud-ticks {
+  animation: hud-spin 60s linear infinite;
 }
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
+.hud-label {
+  animation: hud-spin 90s linear infinite reverse;
 }
-@keyframes marquee {
+.hud-inner {
+  animation: hud-spin 40s linear infinite;
+}
+.hud-arcs {
+  transform-origin: 250px 250px;
+  animation: hud-spin 120s linear infinite reverse;
+}
+.hud-arc {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  filter: drop-shadow(0 0 6px rgb(139 92 246 / 0.6));
+  animation: hud-draw 1.6s var(--ease-out) forwards;
+  animation-delay: calc(400ms + var(--i) * 180ms);
+}
+@keyframes hud-spin {
   to {
-    transform: translateX(-50%);
+    transform: rotate(360deg);
   }
+}
+@keyframes hud-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Indicador "rolar" com seta descendo. */
+.scroll-cue svg {
+  animation: cue 1.8s var(--ease-out) infinite;
+}
+@keyframes cue {
+  0% {
+    transform: translateY(-3px);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+}
+
+/* Janela de app em volta dos projetos (estilo 21st.dev). */
+.app-window {
+  background:
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    linear-gradient(160deg, rgb(196 181 253 / 0.35), rgb(38 30 58 / 0.6) 40%, rgb(38 30 58 / 0.6)) border-box;
+  border: 1px solid transparent;
 }
 
 /* ------------------------------------------------------------------ */
@@ -405,8 +454,16 @@ pre {
   .word > span,
   .hero-blob,
   .video-frame,
-  .marquee-track {
+  .hud-ticks,
+  .hud-label,
+  .hud-inner,
+  .hud-arcs,
+  .scroll-cue svg {
     animation: none;
+  }
+  .hud-arc {
+    animation: none;
+    stroke-dashoffset: 0;
   }
   .word > span {
     transform: none;
