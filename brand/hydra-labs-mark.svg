@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="386 386 1160 1160" role="img" aria-label="Hydra Labs">
+  <title>Hydra Labs</title>
+  
+  <rect x="530" y="483" width="292" height="964" rx="146" fill="#3d0d91"/>
+  <rect x="1110" y="483" width="292" height="964" rx="146" fill="#3d0d91"/>
+  <g id="half">
+    <path d="M822 947 V1003 C700 995 565 1040 530 1150 V1140 C560 1000 680 947 820 947 Z" fill="#2b0a6b"/>
+    <path d="M530 1060 C534 1010 556 975 580 950 L720 810 C748 782 780 772 820 772 H965 L853 947 H820 C680 947 560 1000 530 1140 Z" fill="#a24bf3"/>
+    <path d="M965 772 L1077 947 H853 Z" fill="#7f2bd0"/>
+  </g>
+  <use xlink:href="#half" href="#half" transform="rotate(180 966 966)"/>
+</svg>
